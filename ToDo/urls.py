@@ -24,7 +24,6 @@ urlpatterns = [
     path('checked/<id>' , checked , name = 'checked'),
     path('delete/<id>' , delete , name = 'delete'),
     path('undo/<id>' , undo , name = 'undo'),
-    path('switch_to_persian' , switch_to_persian , name = 'switch_to_persian'),
     path('login' , login_view , name = 'login_view'),
     
 ]
