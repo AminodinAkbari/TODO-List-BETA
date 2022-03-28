@@ -51,11 +51,14 @@
 					{{form.password}}
 					
 						<h1>{{form.error}}</h1>
-					
 					<button type="submit">Login</button>
-				</form>
+				</form>						
 			</div>
 	</div>
+	<hr>
+				{% for error in form.username.errors %}
+            <p class="text-danger p-3">{{error}}</p>
+          {% endfor %}
 </body>
 </html>
 <!-- partial -->

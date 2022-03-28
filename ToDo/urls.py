@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Todo_list.views import *
-from account.views import login_view
+from account.views import login_view , register_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,7 +24,7 @@ urlpatterns = [
     path('checked/<id>' , checked , name = 'checked'),
     path('delete/<id>' , delete , name = 'delete'),
     path('undo/<id>' , undo , name = 'undo'),
-    path('switch_to_persian' , switch_to_persian , name = 'switch_to_persian'),
     path('login' , login_view , name = 'login_view'),
+    path('register' , register_view , name = 'register_view'),
     
 ]
