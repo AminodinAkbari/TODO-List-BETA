@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+
+{% load static %}
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Sign up / Login Form</title>
+  <link rel="stylesheet" href="{% static './style.css' %}">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Slide Navbar</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+			<div class="signup">
+				<form method="post">
+					{% csrf_token %}
+					<label for="chk" aria-hidden="true">Sign up</label>
+					{{register_form.username}}
+					{{register_form.password}}
+					{{register_form.re_password}}
+
+					<div class="container overflow-auto">
+						{% for error in register_form.re_password.errors %}
+							<h6 class="ml-40">{{error}}</h6>
+						{% endfor %}
+						{% for error in register_form.username.errors %}
+							<h6 class="ml-40">{{error}}</h6><br>
+						{% endfor %}
+					</div>
+
+					<button>Sign up</button>
+				</form>
+			</div>
+
+			<div class="login">
+				<form method="post">
+					{% csrf_token %}
+					<label for="chk" aria-hidden="true">Login</label>
+					{{form.username}}
+					{{form.password}}
+					
+						<h1>{{form.error}}</h1>
+					
+					<button type="submit">Login</button>
+				</form>
+			</div>
+	</div>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
