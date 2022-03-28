@@ -1,0 +1,100 @@
+{% load jalali_tags %}
+
+{% include 'shared/styles.html' %}
+
+{% load static %}
+
+	<div class="container" dir="">
+		<div class="row">
+			<div class="col">
+				<form method="post" class="col align-self-center p-5">
+				<div class="input-group align-self-center">
+
+					<div class="dropdown">
+					  <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+					    Dropdown button
+					  </button>
+					  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+					  	{% if request.user.is_authenticated %}
+					    <li><a class="dropdown-item" href="">{{request.user.username}}</a></li>
+					   	<li><hr class="dropdown-divider"></li>
+					    <li><a class="dropdown-item" href="">LOG OUT</a></li>
+					    {% endif %}
+					  </ul>
+					</div>
+
+				  	<button class="input-group-text btn btn-success" type="submit">ADD</button>
+				  	{{form.task}}
+				  	{{form.date}}
+				  	{{form.status}}
+				</div>
+					{%csrf_token%}
+				</form>
+			</div>
+		</div>
+		<span class="badge bg-light text-dark">Done {{done_tasks|length}}</span>
+		<span class="badge bg-warning text-dark">Proccess {{tasks|length}}</span>
+		<hr>
+	</div>
+
+
+	<br>
+	<br>
+
+<!-- By default, Datepicker using jQuery, you need to set your script after loading jQuery! -->
+	<!-- loading directly -->
+		<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+		<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+	<!-- OR -->
+	<!-- loading by form (if used AdminJalaliDateWidget) -->
+		{{ form.media }}
+
+
+<div class="container" dir="">
+	<div class="row">
+		{% for task in tasks %}
+			{% if task.status == 'High' %}
+			<div class="alert alert-danger col-10">{{task.task}} |
+				<span class="fw-light">{{task.date|to_jalali}}</span>
+				<span class="badge bg-danger text-dark">High Priorty</span>
+			</div>
+				<div class="col-2">
+					<a class="btn btn-outline-success bi bi-check-circle-fill" href="{% if task %}{% url 'checked' task.id %}{% endif %}"></a>
+				    <a class="btn btn-outline-danger bi bi-x-circle" href="{% if task %}{% url 'delete' task.id %}{% endif %}"></a>
+				</div>
+
+			{% elif task.status == 'Medium' %}
+			<div class="alert alert-warning col-10">{{task.task}} |
+				<span class="fw-light">{{task.date|to_jalali}}</span>
+				<span class="badge bg-warning">Medium Priorty</span>
+			</div>
+				<div class="col-2">
+					<a class="btn btn-outline-success bi bi-check-circle-fill" href="{% if task %}{% url 'checked' task.id %}{% endif %}"></a>
+				    <a class="btn btn-outline-danger bi bi-x-circle" href="{% if task %}{% url 'delete' task.id %}{% endif %}"></a>
+				</div>
+			{% else %}
+			<div class="alert alert-success col-10">{{task.task}} |
+				<span class="fw-light">{{task.date|to_jalali}}</span>
+				<span class="badge bg-success text-dark">Low Priorty</span>
+			</div>
+			<div class="col-2">
+				<a class="btn btn-outline-success bi bi-check-circle-fill" href="{% if task %}{% url 'checked' task.id %}{% endif %}"></a>
+			    <a class="btn btn-outline-danger bi bi-x-circle" href="{% if task %}{% url 'delete' task.id %}{% endif %}"></a>
+			</div>
+			{% endif %}
+		{% endfor %}
+		<hr>
+		<div class="row">
+			{% for task in done_tasks %}
+			<div class="alert alert-dark col-8 text-decoration-line-through">{{task.task}}
+				<span class="fw-light">{{task.date}}</span>
+				<span class="badge bg-info text-dark fw-bold">{{task.status}}</span>
+			</div>
+			<div class="col-2">
+				<a class="btn btn-primary bi bi-arrow-counterclockwise" href="{% if task %}{% url 'undo' task.id %}{% endif %}"></a>
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+{% include 'shared/js.html' %}
