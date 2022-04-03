@@ -6,6 +6,7 @@ from django.contrib import messages
 
 # Create your views here.
 def login_view(request):
+	
 
 	if request.user.is_authenticated:
 		return redirect('/')
