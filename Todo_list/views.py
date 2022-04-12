@@ -4,7 +4,9 @@ from .forms import TodoForm
 from .models import TodoModel
 from jalali_date import datetime2jalali, date2jalali
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/login')
 def Todo_view(request):
 	if request.user.is_authenticated:
 		jalali_join = datetime2jalali(request.user.date_joined).strftime('%y/%m/%d _ %H:%M:%S')
@@ -26,6 +28,7 @@ def Todo_view(request):
 	}
 	return render(request , 'index.html' , context)
 
+@login_required(login_url='/login')
 def checked(request , id):
 	try:
 		qs = TodoModel.objects.get(id = id)
@@ -37,6 +40,7 @@ def checked(request , id):
 
 	return redirect('/')
 
+@login_required(login_url='/login')
 def delete(request , id):
 	try:
 		qs = TodoModel.objects.get(id = id)
@@ -47,6 +51,7 @@ def delete(request , id):
 
 	return redirect('/')
 
+@login_required(login_url='/login')
 def undo(request , id):
 	try:
 		qs = TodoModel.objects.get(id = id)
